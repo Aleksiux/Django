@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     # MY APPS
     'library',
     # THIRD PARTY APPS
-    'bootstrap4',
+    # 'bootstrap4',
 ]
 
 MIDDLEWARE = [
