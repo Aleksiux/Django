@@ -4,3 +4,10 @@
     list-style: none;
 
 }
+
+.book-cover {
+    width: 300px;
+    height: 400px;
+    object-fit: contain;
+
+}
