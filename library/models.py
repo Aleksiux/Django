@@ -1,5 +1,6 @@
 from django.db import models
 import uuid
+from django_resized import ResizedImageField
 
 
 # Create your models here.
@@ -17,6 +18,7 @@ class Author(models.Model):
     author_id = models.AutoField(primary_key=True)
     first_name = models.CharField('First name', max_length=100)
     last_name = models.CharField('Last name', max_length=100)
+    description = models.TextField('Description', max_length=1000, help_text='Enter author description:', default='')
 
     class Meta:
         ordering = ['last_name', 'first_name']
@@ -38,6 +40,7 @@ class Book(models.Model):
         help_text='ISBN nr.: <a href="https://www.isbn-international.org/content/what-isbn">ISBN code</a>'
     )
     genre = models.ManyToManyField(Genre, help_text='Enter books genre: ')
+    cover = ResizedImageField('Cover', size=[300, 400], upload_to='covers', null=True)
 
     def __str__(self):
         return self.title
