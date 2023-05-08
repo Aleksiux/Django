@@ -15,7 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-from django.urls import path
+from django.urls import path, include
 from django.views.generic import RedirectView
 
 from . import views
@@ -24,8 +24,10 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('authors/', views.authors, name='author'),
     path('authors/<int:author_id>', views.author, name='author'),
-    path('', RedirectView.as_view(url='library/', permanent=True)),
+    path('', RedirectView.as_view(url='library/', permanent=False)),
     path('books/', views.BookListView.as_view(), name='books'),
     path('books/<int:pk>', views.BookDetailView.as_view(), name='book-detail'),
     path('search/', views.search, name='search'),
+    path('account/', include('django.contrib.auth.urls')),
+
 ]

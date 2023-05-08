@@ -6,7 +6,7 @@
   {% if object_list %}
       <div class="row">
     {% for book in object_list %}
-       <div class="col-md-4 d-flex align-items-stretch">
+       <div class="col-md-4 d-flex">
           <div class="card mb-4 shadow-sm">
             {% if book.cover %}
               <img src="{{ book.cover.url }}" class="card-img-top book-cover">
