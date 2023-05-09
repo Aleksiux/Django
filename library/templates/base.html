@@ -20,6 +20,8 @@
                 <li><a href="{% url 'index' %}">Home</a></li>
                 <li><a href="{% url 'books' %}">All books</a></li>
                 <li><a href="{% url 'author' %}">All authors</a></li>
+                <li><a href="{% url 'my-books' %}">Book details</a></li>
+                <li><a href="{% url 'my-books2' %}">Book details2</a></li>
                 <li>
                     <form action="{% url 'search' %}" method="get" class="form-inline my-2 my-md-0">
                         <input name="query" class="form-control" type="text" placeholder="Search">
