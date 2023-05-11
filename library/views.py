@@ -5,6 +5,10 @@ from .models import *
 from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
+from django.contrib.auth.forms import User
+from django.views.decorators.csrf import csrf_protect
+from django.contrib import messages
 
 
 # Create your views here.
@@ -91,11 +95,62 @@ class UserBooksListView(LoginRequiredMixin, generic.ListView):
 def user_books(request):
     user = request.user
     try:
-        user_books = BookInstance.objects.filter(reader=request.user).filter(book_status__exact='t').order_by('due_back')
+        user_books = BookInstance.objects.filter(reader=request.user).filter(book_status__exact='t').order_by(
+            'due_back')
     except BookInstance.DoesNotExist:
         user_books = None
     context = {
-        'user':user,
-        'user_books':user_books,
+        'user': user,
+        'user_books': user_books,
     }
     return render(request, 'user_books2.html', context)
+
+
+@csrf_protect
+def register(request):
+    if request.method == "POST":
+        # taking all values from registration form
+        username = request.POST['username']
+        email = request.POST['email']
+        password = request.POST['password']
+        password2 = request.POST['password2']
+        # checking if passwords matches
+        #     if password == password2:
+        #         # checking if username is not taken
+        #         if User.objects.filter(username=username).exists():
+        #             messages.error(request, f'Username {username} is taken! Choose another one')
+        #             return redirect('register')
+        #         else:
+        #             # checking if email is not taken
+        #             if User.objects.filter(email=email).exists():
+        #                 messages.error(request, f'User with {email} is already registered!')
+        #                 return redirect('register')
+        #             else:
+        #                 # if everything is good, create new user.
+        #                 User.objects.create_user(username=username, email=email, password=password)
+        #                 messages.info(request, f'User with username {username} registered!')
+        #                 return redirect('login')
+        #     else:
+        #         messages.error(request, 'Password does not match!')
+        #         return redirect('register')
+        # return render(request, 'register.html')
+
+        # checking if passwords matches
+        if password != password2:
+            messages.error(request, 'Password does not match!')
+            return redirect('register')
+
+        # checking if username is not taken
+        if User.objects.filter(username=username).exists():
+            messages.error(request, f'Username {username} is taken! Choose another one')
+            return redirect('register')
+
+        # checking if email is not taken
+        if User.objects.filter(email=email).exists():
+            messages.error(request, f'User with {email} is already registered!')
+            return redirect('register')
+
+        # if everything is good, create new user.
+        User.objects.create_user(username=username, email=email, password=password)
+        messages.info(request, f'User with username {username} registered!')
+        return redirect('login')
