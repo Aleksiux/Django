@@ -54,7 +54,7 @@ class Book(models.Model):
 
 class BookInstance(models.Model):
     instance_id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text="Unique UUID code")
-    book = models.ForeignKey(Book, on_delete=models.SET_NULL, null=True)
+    book = models.ForeignKey(Book, on_delete=models.SET_NULL, null=True, related_name='book_instances')
     due_back = models.DateField('', null=True, blank=True)
     reader = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
 
@@ -78,3 +78,16 @@ class BookInstance(models.Model):
 
     def __str__(self):
         return f'{self.book.title}'
+
+
+class BookReview(models.Model):
+    book_review_id = models.AutoField(primary_key=True)
+    book = models.ForeignKey('Book', on_delete=models.SET_NULL, null=True, blank=True, related_name='reviews')
+    reviewer = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+    content = models.TextField('Review', max_length=2000)
+
+    class Meta:
+        verbose_name = "Review"
+        verbose_name_plural = 'Review'
+        ordering = ['-date_created']
