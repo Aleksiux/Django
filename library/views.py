@@ -111,6 +111,8 @@ def register(request):
     if request.method == "POST":
         # taking all values from registration form
         username = request.POST['username']
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
         email = request.POST['email']
         password = request.POST['password']
         password2 = request.POST['password2']
@@ -151,6 +153,8 @@ def register(request):
             return redirect('register')
 
         # if everything is good, create new user.
-        User.objects.create_user(username=username, email=email, password=password)
+        User.objects.create_user(username=username, first_name=first_name, last_name=last_name, email=email,
+                                 password=password)
         messages.info(request, f'User with username {username} registered!')
         return redirect('login')
+    return render(request, 'registration/register.html')
