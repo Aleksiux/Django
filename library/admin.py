@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import *
+from .models import Profile, Author, Book, BookInstance, Genre
 
 
 # Register your models here.
@@ -15,6 +15,7 @@ class BookAdmin(admin.ModelAdmin):
 class BookInstanceAdmin(admin.ModelAdmin):
     def change_format(self, obj):
         return obj.due_back.strftime('%Y-%m-%d')
+
     list_display = ('book', 'book_status', 'due_back', 'reader')
     list_filter = ('book_status',)
     fieldsets = (
@@ -24,6 +25,7 @@ class BookInstanceAdmin(admin.ModelAdmin):
     search_fields = ('instance_id', 'book__title')
 
 
+admin.site.register(Profile)
 admin.site.register(Author, AuthorAdmin)
 admin.site.register(Book, BookAdmin)
 admin.site.register(Genre)

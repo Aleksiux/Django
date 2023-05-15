@@ -7,6 +7,7 @@
 
     <ul>
         {% for bookinstance in bookinstance_list %}
+        <img class="rounded-circle" src="{{bookinstance.reader.profile.photo.url}}">
         <li class="{% if bookinstance.is_overdue %}text-danger{% endif %}">
             <a href="{% url 'book-detail' bookinstance.book.pk %}">{{bookinstance.book.title}}</a> ({{ bookinstance.due_back }})  </li>
     {% endfor %}

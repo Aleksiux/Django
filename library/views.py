@@ -115,27 +115,6 @@ def register(request):
         password = request.POST['password']
         password2 = request.POST['password2']
         # checking if passwords matches
-        #     if password == password2:
-        #         # checking if username is not taken
-        #         if User.objects.filter(username=username).exists():
-        #             messages.error(request, f'Username {username} is taken! Choose another one')
-        #             return redirect('register')
-        #         else:
-        #             # checking if email is not taken
-        #             if User.objects.filter(email=email).exists():
-        #                 messages.error(request, f'User with {email} is already registered!')
-        #                 return redirect('register')
-        #             else:
-        #                 # if everything is good, create new user.
-        #                 User.objects.create_user(username=username, email=email, password=password)
-        #                 messages.info(request, f'User with username {username} registered!')
-        #                 return redirect('login')
-        #     else:
-        #         messages.error(request, 'Password does not match!')
-        #         return redirect('register')
-        # return render(request, 'register.html')
-
-        # checking if passwords matches
         if password != password2:
             messages.error(request, 'Password does not match!')
             return redirect('register')
@@ -154,3 +133,9 @@ def register(request):
         User.objects.create_user(username=username, email=email, password=password)
         messages.info(request, f'User with username {username} registered!')
         return redirect('login')
+    return render(request, 'registration/register.html')
+
+
+@login_required
+def profile(request):
+    return render(request, 'profile.html')
