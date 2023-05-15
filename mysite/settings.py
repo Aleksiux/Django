@@ -34,6 +34,8 @@ INSTALLED_APPS = [
     'library',
     # PLUGINS
     'tinymce',
+    'crispy_forms',
+    'crispy_bootstrap4',
     # DEFAULT APPS
     'django.contrib.admin',
     'django.contrib.auth',
@@ -41,8 +43,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # THIRD PARTY APPS
-    # 'bootstrap4',
 ]
 
 MIDDLEWARE = [
@@ -165,3 +165,5 @@ TINYMCE_DEFAULT_CONFIG = {
     'menubar': True,
     'statusbar': True,
     }
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

@@ -10,7 +10,7 @@ from django.contrib.auth.forms import User
 from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
 from django.views.generic.edit import FormMixin
-from .forms import BookReviewForm
+from .forms import BookReviewForm, UserUpdateForm, ProfileUpdateForm
 
 
 # Create your views here.
@@ -66,7 +66,7 @@ class BookListView(generic.ListView):
     template_name = 'book_list.html'
 
 
-class BookDetailView(FormMixin,generic.DetailView):
+class BookDetailView(FormMixin, generic.DetailView):
     model = Book
     template_name = 'book_detail.html'
     form_class = BookReviewForm
@@ -137,10 +137,7 @@ def register(request):
         email = request.POST['email']
         password = request.POST['password']
         password2 = request.POST['password2']
-<<<<<<< HEAD
-=======
 
->>>>>>> 49093863235efb5792a2663cd3ff29b79b5a4808
         # checking if passwords matches
         if password != password2:
             messages.error(request, 'Password does not match!')
@@ -162,11 +159,29 @@ def register(request):
         messages.info(request, f'User with username {username} registered!')
         return redirect('login')
     return render(request, 'registration/register.html')
-<<<<<<< HEAD
 
 
 @login_required
 def profile(request):
     return render(request, 'profile.html')
-=======
->>>>>>> 49093863235efb5792a2663cd3ff29b79b5a4808
+
+
+@login_required
+def profile(request):
+    if request.method == "POST":
+        u_form = UserUpdateForm(request.POST, instance=request.user)
+        p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            messages.success(request, f"Profile updated")
+            return redirect('profile')
+    else:
+        u_form = UserUpdateForm(instance=request.user)
+        p_form = ProfileUpdateForm(instance=request.user.profile)
+
+    context = {
+        'u_form': u_form,
+        'p_form': p_form,
+    }
+    return render(request, 'profile.html', context)

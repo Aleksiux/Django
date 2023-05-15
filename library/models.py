@@ -81,6 +81,19 @@ class BookInstance(models.Model):
         return f'{self.book.title}'
 
 
+class BookReview(models.Model):
+    book_review_id = models.AutoField(primary_key=True)
+    book = models.ForeignKey('Book', on_delete=models.SET_NULL, null=True, blank=True, related_name='reviews')
+    reviewer = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+    content = models.TextField('Review', max_length=2000)
+
+    class Meta:
+        verbose_name = "Review"
+        verbose_name_plural = 'Review'
+        ordering = ['-date_created']
+
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     photo = models.ImageField(default="profile_pics/default.png", upload_to="profile_pics")
@@ -96,16 +109,3 @@ class Profile(models.Model):
         output_size = (300, 300)
         img.thumbnail(output_size)
         img.save(self.photo.path)
-
-
-class BookReview(models.Model):
-    book_review_id = models.AutoField(primary_key=True)
-    book = models.ForeignKey('Book', on_delete=models.SET_NULL, null=True, blank=True, related_name='reviews')
-    reviewer = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    date_created = models.DateTimeField(auto_now_add=True)
-    content = models.TextField('Review', max_length=2000)
-
-    class Meta:
-        verbose_name = "Review"
-        verbose_name_plural = 'Review'
-        ordering = ['-date_created']
