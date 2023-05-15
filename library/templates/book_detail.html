@@ -17,7 +17,7 @@
 <div style="margin-left:20px;margin-top:20px">
     <h4>Copy's:</h4>
 
-    {% for copy in book.bookinstance_set.all %}
+    {% for copy in book.book_instances.all %}
     <hr>
     <img class="rounded-circle" src="{{copy.reviewer.profile.photo.url}}">
 
@@ -34,4 +34,28 @@
     <p class="text-muted"><strong>Id:</strong> {{ copy.instance_id }}</p>
     {% endfor %}
 </div>
+
+<br>
+  <h4>Reviews:</h4>
+  {% if book.reviews.all %}
+    {% for review in book.reviews.all %}
+      <hr>
+      <strong>{{ review.reviewer }}</strong>, <em>{{ review.date_created}}</em>
+      <p>{{ review.content }}</p>
+    {% endfor %}
+  {% else %}
+    <p>Book has no reviews</p>
+  {% endif %}
+
+  {% if user.is_authenticated %}
+  <div class="fieldWrapper">
+    <hr><br/>
+    <h4>Leave a review:</h4>
+    <form action="" method="post">
+      {% csrf_token %}
+      {{ form.content }}</br>
+      <input type="submit" value="Submit">
+    </form>
+  </div>
+  {% endif %}
 {% endblock %}

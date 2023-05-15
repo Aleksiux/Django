@@ -25,7 +25,15 @@ class BookInstanceAdmin(admin.ModelAdmin):
     search_fields = ('instance_id', 'book__title')
 
 
+<<<<<<< HEAD
 admin.site.register(Profile)
+=======
+class BookReviewAdmin(admin.ModelAdmin):
+    list_display = ('book', 'date_created', 'reviewer', 'content')
+
+
+admin.site.register(BookReview, BookReviewAdmin)
+>>>>>>> 49093863235efb5792a2663cd3ff29b79b5a4808
 admin.site.register(Author, AuthorAdmin)
 admin.site.register(Book, BookAdmin)
 admin.site.register(Genre)
