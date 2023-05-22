@@ -10,6 +10,8 @@
         <li class="{% if book.is_overdue %}text-danger{% endif %}">
             <a href="{% url 'book-detail' book.book.pk %}">{{book.book.title}}</a> Due back:({{ book.due_back }})
         </li>
+        <li><a href="{% url 'my-books2' book.instance_id %}"> Inspect</a></li>
+
         {% endfor %}
     </ul>
 

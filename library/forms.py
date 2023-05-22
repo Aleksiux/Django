@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 
-from .models import BookReview, Profile
+from .models import BookReview, Profile, BookInstance
 from django import forms
 
 
@@ -23,3 +23,30 @@ class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['photo']
+
+
+class DateInput(forms.DateInput):
+    input_type = 'datetime-local'
+
+
+class UserBookCreateForm(forms.ModelForm):
+    class Meta:
+        model = BookInstance
+        fields = ['book', 'reader', 'due_back']
+        widgets = {'reader': forms.HiddenInput(), 'due_back': DateInput()}
+
+
+class CreateBookInstanceForm(forms.ModelForm):
+    class Meta:
+        model = BookInstance
+        fields = ['book', 'due_back']
+
+
+class EditBookInstanceForm(forms.ModelForm):
+    class Meta:
+        model = BookInstance
+        fields = ['book', 'due_back', 'book_status']
+
+        widgets = {
+            'book': forms.HiddenInput,
+        }
