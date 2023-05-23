@@ -26,7 +26,7 @@ class ProfileUpdateForm(forms.ModelForm):
 
 
 class DateInput(forms.DateInput):
-    input_type = 'datetime-local'
+    type = 'datetime-local'
 
 
 class UserBookCreateForm(forms.ModelForm):
@@ -40,6 +40,12 @@ class CreateBookInstanceForm(forms.ModelForm):
     class Meta:
         model = BookInstance
         fields = ['book', 'due_back']
+        widgets = {
+            'due_back': forms.DateInput(format='%Y-%m-%d', attrs={
+                'type': 'date'
+            }),
+
+        }
 
 
 class EditBookInstanceForm(forms.ModelForm):

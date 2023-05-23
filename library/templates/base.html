@@ -60,9 +60,6 @@
          role="alert">
         {{ message }}
     </div>
-        <div class="alert alert-{% if message.tags == 'error' %}danger{% elif message.tags == 'info' %}success{% endif %}" role="alert">
-            {{ message }}
-        </div>
     {% endfor %}
     {% endif %}
 </div>
