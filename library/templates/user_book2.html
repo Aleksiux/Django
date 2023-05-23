@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+    <script src="/static/javascript/confirmJS.js"></script>
     <h1>My taken books:</h1>
     <hr>
         <ul>
@@ -9,10 +10,16 @@
         <li><strong>Return due:</strong> {{user_taken_book.due_back}}</li>
         <br/>
       </li>
+        </ul>
             {% if user_taken_book.reader == user %}
-            <div>
-                <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'update2' user_taken_book.pk %}">Update</a>
-            </div>
+                <div>
+                    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'update2' user_taken_book.pk %}">Update</a>
+    <!--                <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'delete2' user_taken_book.pk %}">Delete</a>-->
+
+                    <form method="POST" action="{% url 'delete2' user_taken_book.pk %}">
+                    {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm mt-1 mb-1" onclick="return confirmJS('{{user_taken_book.pk}}')">Delete</button>
+                    </form>
+                </div>
             {% endif %}
-    </ul>
 {% endblock %}

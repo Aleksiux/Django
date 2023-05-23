@@ -10,7 +10,7 @@ from django.contrib.auth.forms import User
 from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
 from django.views.generic.edit import FormMixin
-from .forms import EditBookInstanceForm,BookReviewForm, UserUpdateForm, ProfileUpdateForm, CreateBookInstanceForm
+from .forms import EditBookInstanceForm, BookReviewForm, UserUpdateForm, ProfileUpdateForm, CreateBookInstanceForm
 
 
 # Create your views here.
@@ -265,7 +265,7 @@ class UserBookUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.Update
 
 
 def update_book_instance(request, pk):
-    book_instance = BookInstance.objects.get(instance_id = pk)
+    book_instance = BookInstance.objects.get(instance_id=pk)
     if request.method == "POST":
         form = EditBookInstanceForm(data=request.POST, instance=book_instance)
         if form.is_valid:
@@ -294,5 +294,16 @@ class UserBookDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.Delete
         return self.request.user == book.reader
 
 
-def delete_book_instance(request):
-    pass
+@login_required(login_url='login')
+def delete_book_instance(request, pk):
+    if request.method == "POST":
+        user = request.user
+        try:
+            book_instance = BookInstance.objects.filter(instance_id=pk, reader=user)
+            book_instance.delete()
+            messages.success(request, 'The user has been deleted')
+            return redirect('/')
+        except BookInstance.DoesNotExist():
+            return render(request, '/')
+    else:
+        return render(request, '/')

@@ -39,6 +39,7 @@ urlpatterns = [
     path('my_books2/', views.user_books, name='my-books2'),
     path('my_books2/<uuid:instance_id>', views.user_book, name='my-books2'),
     path('my_books2/<uuid:pk>/update2', views.update_book_instance, name='update2'),
+    path('my_books2/<uuid:pk>/delete2', views.delete_book_instance, name='delete2'),
     path('register/', views.register, name='register'),
     path('profile/', views.profile, name='profile'),
     path('my_books/create2/', views.create_new_book_instance, name='create2'),
