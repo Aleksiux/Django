@@ -43,5 +43,7 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('profile/', views.profile, name='profile'),
     path('my_books/create2/', views.create_new_book_instance, name='create2'),
+    # TRANSLATE
+    path('i18n/', include('django.conf.urls.i18n')),
 
 ]

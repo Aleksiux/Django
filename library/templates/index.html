@@ -1,20 +1,21 @@
 {% extends 'base.html' %}
-
+{% load i18n %}
 {% block content %}
 
 
-  <h1>Library</h1>
+<h1>{% trans "Library" %}</h1>
 {% if user.is_authenticated %}
-    <p> Welcome back {{user.username}}</p>
+    <p> {% trans "Welcome back!" %} {{user.username}} </p>
   {% else %}
   <p>Welcome to book heaven!</p>
 {%endif%}
   <p>At this time we have:</p>
   <ul>
-    <li><strong>Books we have:</strong> {{ books }}</li>
-    <li><strong>Book instance:</strong> {{ book_instances }}</li>
-    <li><strong>Available books:</strong> {{ available }}</li>
-    <li><strong>Author:</strong> {{ authors }}</li>
+    <li><strong>{% trans "Books we have:" %}</strong> {{ books }}</li>
+    <li><strong>{% trans "Book instance:" %}</strong> {{ book_instances }}</li>
+    <li><strong>{% trans "Available books:" %}</strong> {{ available }}</li>
+    <li><strong>{% trans "Author:" %}</strong> {{ authors }}</li>
   </ul>
-<p>You have visited this site {{number_of_visits}} times!</p>
+<p>{% trans "You have visited this site" %} {{number_of_visits}} {% trans "times!" %}</p>
+
 {% endblock %}
